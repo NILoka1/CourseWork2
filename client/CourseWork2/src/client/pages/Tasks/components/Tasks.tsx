@@ -14,7 +14,7 @@ const Tasks = ({ role, solo }: { role: Role; solo: boolean }): JSX.Element => {
   const { user } = useAuthStore();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       try {
         let response;
         if (solo) {
@@ -30,7 +30,7 @@ const Tasks = ({ role, solo }: { role: Role; solo: boolean }): JSX.Element => {
     };
 
     fetchData();
-  }, []);
+  }, [user]);
   if (!tasks) {
     return <div>Загрузка...</div>;
   }

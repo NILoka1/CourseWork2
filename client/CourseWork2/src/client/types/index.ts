@@ -6,13 +6,7 @@ export type Route = {
   protected?: boolean;
 };
 
-export type AppRoute =
-  | "home"
-  | "register"
-  | "login"
-  | "dashboard"
-  | "projects"
-  | "profile";
+export type AppRoute = 'home' | 'register' | 'login' | 'dashboard' | 'projects' | 'profile';
 
 export interface User {
   id: string;
@@ -31,7 +25,7 @@ export interface SafeUser {
   avatar?: string;
 }
 
-export type Role = "MANAGER" | "TEAM_LEAD" | "DEVELOPER" | "TESTER";
+export type Role = 'MANAGER' | 'TEAM_LEAD' | 'DEVELOPER' | 'TESTER';
 
 // Project types
 export interface Project {
@@ -47,12 +41,7 @@ export interface Project {
   updatedAt: string;
 }
 
-export type ProjectStatus =
-  | "PLANNING"
-  | "ACTIVE"
-  | "ON_HOLD"
-  | "COMPLETED"
-  | "CANCELLED";
+export type ProjectStatus = 'PLANNING' | 'ACTIVE' | 'ON_HOLD' | 'COMPLETED' | 'CANCELLED';
 
 // Task types
 export interface Task {
@@ -69,14 +58,8 @@ export interface Task {
   updatedAt: string;
 }
 
-export type TaskStatus =
-  | "BACKLOG"
-  | "TODO"
-  | "IN_PROGRESS"
-  | "REVIEW"
-  | "TESTING"
-  | "DONE";
-export type Priority = "LOW" | "MEDIUM" | "HIGH" | "URGENT";
+export type TaskStatus = 'BACKLOG' | 'TODO' | 'IN_PROGRESS' | 'REVIEW' | 'TESTING' | 'DONE';
+export type Priority = 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
 
 // Time Entry types
 export interface TimeEntry {
@@ -122,6 +105,15 @@ export interface FullProjects {
   createdAt: string;
   updatedAt: string;
 }
+export interface ProjectForm {
+  name: string;
+  description: string;
+  status: string;
+  progress: number;
+  budget: number | null;
+  startDate: Date | null;
+  endDate: Date | null;
+}
 
 export interface TeamUser {
   id: string;
@@ -130,7 +122,7 @@ export interface TeamUser {
   role: TeamRole;
 }
 
-export type TeamRole = "LEADER" | "MEMBER";
+export type TeamRole = 'LEADER' | 'MEMBER';
 
 export interface ProjectTeam {
   id: string;
@@ -214,7 +206,7 @@ export interface TimeStats {
 
 // Query parameters for dashboard
 export interface DashboardQueryParams {
-  period?: "week" | "month" | "quarter";
+  period?: 'week' | 'month' | 'quarter';
   teamId?: string;
   projectId?: string;
   userId?: string;
