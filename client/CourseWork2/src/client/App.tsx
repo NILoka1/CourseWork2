@@ -10,7 +10,7 @@ import { TasksPage } from './pages/Tasks/TasksPage';
 import { TeamList } from './pages/teamList/teamsPage';
 import { Users } from './pages/UsersPage';
 import { FullProject } from './pages/FullProject/FullProject';
-import { FullOneTeam } from './pages/FullTeam';
+import { FullOneTeam } from './pages/FullTeam/FullTeam';
 import { JSX } from 'react';
 
 export default function App(): JSX.Element {

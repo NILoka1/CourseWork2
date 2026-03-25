@@ -30,7 +30,7 @@ const Tasks = ({ role, solo }: { role: Role; solo: boolean }): JSX.Element => {
     };
 
     fetchData();
-  }, [user]);
+  });
   if (!tasks) {
     return <div>Загрузка...</div>;
   }

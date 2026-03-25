@@ -91,6 +91,11 @@ export interface FullTeam {
   updatedAt: string;
 }
 
+export interface FullTeamUpdated {
+  name: string;
+  description: string | null;
+}
+
 export interface FullProjects {
   id: string;
   name: string;
