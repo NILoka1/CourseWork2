@@ -2,35 +2,51 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FullTeam, FullTeamUpdated } from '../../types';
 import { TeamsAPI } from '../../services/api';
-import { useDisclosure } from '@mantine/hooks';
 import { useStatePage } from '../../func/useStatePage';
+import { useForm, UseFormReturnType } from '@mantine/form';
 
 interface useFullTeamReturn {
   team: FullTeam;
-  isUpdate: boolean;
-  open: () => void;
-  updatedTeam: FullTeamUpdated;
-  setUpdatedTeam: React.Dispatch<React.SetStateAction<FullTeamUpdated>>;
   error: string;
-  handleSave: () => Promise<void>;
+  handleSubmit: (event?: React.FormEvent<HTMLFormElement>) => void;
   handleAddMembers: (userIds: string[]) => Promise<void>;
   handleAddProjects: (projectIds: string[]) => Promise<void>;
   loading: boolean;
+  form: UseFormReturnType<
+    {
+      name: string;
+      description: string;
+    },
+    (values: { name: string; description: string }) => {
+      name: string;
+      description: string;
+    }
+  >;
+  handleCancel: () => void;
 }
 
 export const useFullTeam = (): useFullTeamReturn => {
   const { teamId } = useParams<{ teamId: string }>();
   const [team, setTeam] = useState<FullTeam>();
-  const [isUpdate, { open, close }] = useDisclosure(false);
-  const [updatedTeam, setUpdatedTeam] = useState<FullTeamUpdated>();
   const { error, setError, loading, setLoading } = useStatePage();
+  const form = useForm<FullTeamUpdated>({
+    validateInputOnBlur: true,
+    initialValues: {
+      name: '',
+      description: '',
+    },
+    validate: {
+      name: (val) => val.length < 3 && 'Слишком короткое название',
+    },
+  });
 
   useEffect(() => {
     const getTeam = async (): Promise<void> => {
       try {
         const teamData = (await TeamsAPI.getTeam(teamId)).data;
         setTeam(teamData);
-        setUpdatedTeam({ name: teamData.name, description: teamData.description });
+        form.setValues({ ...teamData });
+        form.resetDirty();
       } catch {
         setError('Не удалось загрузить данные команды');
       } finally {
@@ -41,25 +57,27 @@ export const useFullTeam = (): useFullTeamReturn => {
     getTeam();
   }, [teamId]);
 
-  // Обработчик сохранения
-  const handleSave = async (): Promise<void> => {
+  const handleCancel = (): void => {
+    form.setValues({ ...team });
+    form.resetDirty();
+  };
+  const handleSubmit = form.onSubmit(async () => {
     try {
-      await TeamsAPI.updateTeam(teamId, updatedTeam);
+      await TeamsAPI.updateTeam(teamId, form.getValues());
 
       // Обновляем локальное состояние
       if (team) {
         setTeam({
           ...team,
-          name: updatedTeam.name,
-          description: updatedTeam.description,
+          ...form.getValues(),
         });
       }
 
-      close(); // Закрываем режим редактирования
+      form.resetDirty();
     } catch {
       setError('Ошибка при обновлении');
     }
-  };
+  });
 
   const handleAddMembers = async (userIds: string[]): Promise<void> => {
     try {
@@ -96,14 +114,12 @@ export const useFullTeam = (): useFullTeamReturn => {
 
   return {
     team,
-    isUpdate,
-    open,
-    updatedTeam,
-    setUpdatedTeam,
     error,
-    handleSave,
+    handleSubmit,
     handleAddMembers,
     handleAddProjects,
     loading,
+    form,
+    handleCancel,
   };
 };
