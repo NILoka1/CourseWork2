@@ -71,7 +71,7 @@ export default function App(): JSX.Element {
           <Route
             path="/teams"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={['MANAGER']}>
                 <TeamList />
               </ProtectedRoute>
             }
@@ -79,7 +79,7 @@ export default function App(): JSX.Element {
           <Route
             path="/team/:teamId"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={['MANAGER']}>
                 <FullOneTeam />
               </ProtectedRoute>
             }
@@ -88,7 +88,7 @@ export default function App(): JSX.Element {
           <Route
             path="/users"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={['MANAGER']}>
                 <Users />
               </ProtectedRoute>
             }

@@ -5,13 +5,18 @@ import { JSX } from 'react';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
+  allowedRoles?: string[];
 }
 
-export function ProtectedRoute({ children }: ProtectedRouteProps): JSX.Element {
-  const { isAuthenticated } = useAuthStore();
+export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps): JSX.Element {
+  const { isAuthenticated, user } = useAuthStore();
+  console.log(1, children);
 
   if (!isAuthenticated) {
     return <Navigate to="/" replace />;
+  }
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    return <Navigate to="/no-access" replace />;
   }
 
   return <>{children}</>;

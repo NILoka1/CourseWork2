@@ -4,6 +4,7 @@ import { FullProjects, ProjectForm } from '../../types/index';
 import { ProjectAPI } from '../../services/api';
 import { useStatePage } from '../../func/useStatePage';
 import { useForm, UseFormReturnType } from '@mantine/form';
+import { useNavigate, NavigateFunction } from 'react-router-dom';
 
 interface UseFullProjectReturn {
   project: FullProjects | undefined;
@@ -12,6 +13,7 @@ interface UseFullProjectReturn {
   error: string;
   loading: boolean;
   form: UseFormReturnType<ProjectForm, (values: ProjectForm) => ProjectForm>;
+  navigate: NavigateFunction;
 }
 
 const mapProjectToForm = (project: FullProjects): ProjectForm => ({
@@ -28,6 +30,7 @@ export const useFullProject = (): UseFullProjectReturn => {
   const { projectId } = useParams<{ projectId: string }>();
   const [project, setProject] = useState<FullProjects>();
   const { error, setError, loading, setLoading } = useStatePage();
+  const navigate = useNavigate();
   const form = useForm<ProjectForm>({
     validateInputOnBlur: true,
     initialValues: {
@@ -105,5 +108,6 @@ export const useFullProject = (): UseFullProjectReturn => {
     error,
     loading,
     form,
+    navigate,
   };
 };

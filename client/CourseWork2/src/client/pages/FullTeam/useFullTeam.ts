@@ -4,7 +4,7 @@ import { FullTeam, FullTeamUpdated } from '../../types';
 import { TeamsAPI } from '../../services/api';
 import { useStatePage } from '../../func/useStatePage';
 import { useForm, UseFormReturnType } from '@mantine/form';
-
+import { useNavigate, NavigateFunction } from 'react-router-dom';
 interface useFullTeamReturn {
   team: FullTeam;
   error: string;
@@ -22,6 +22,7 @@ interface useFullTeamReturn {
       description: string;
     }
   >;
+  navigate: NavigateFunction;
   handleCancel: () => void;
 }
 
@@ -29,6 +30,7 @@ export const useFullTeam = (): useFullTeamReturn => {
   const { teamId } = useParams<{ teamId: string }>();
   const [team, setTeam] = useState<FullTeam>();
   const { error, setError, loading, setLoading } = useStatePage();
+  const navigate = useNavigate();
   const form = useForm<FullTeamUpdated>({
     validateInputOnBlur: true,
     initialValues: {
@@ -121,5 +123,6 @@ export const useFullTeam = (): useFullTeamReturn => {
     loading,
     form,
     handleCancel,
+    navigate,
   };
 };

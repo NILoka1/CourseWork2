@@ -5,10 +5,10 @@ import { useFullProject } from './useFullProject';
 import { FullProjectTeams } from './FullProjectTeams';
 import { FullProjectTasks } from './FullProjectTasks';
 import { StatePage } from '../../components/StatePage';
-
+import { Navigate } from 'react-router-dom';
 
 export const FullProject = (): JSX.Element => {
-  const { project, handleSave, handleCancel, error, loading, form } = useFullProject();
+  const { project, handleSave, handleCancel, error, loading, form, navigate } = useFullProject();
 
   return (
     <StatePage error={error} loading={loading}>
@@ -60,15 +60,34 @@ export const FullProject = (): JSX.Element => {
             <FullProjectTeams project={project} />
             <FullProjectTasks project={project} />
           </Grid>
-          {form.isDirty() && (
-            <Group>
-              <Button type="submit">Сохранить</Button>
-              <Button variant="outline" onClick={handleCancel}>
-                Отмена
-              </Button>
-            </Group>
-          )}
-          <Button variant="outline">Назад к проектам</Button>
+          <Group
+            justify="center"
+            style={{
+              position: 'sticky',
+              bottom: 0,
+              background: 'white',
+              padding: '12px',
+              borderTop: '1px solid #eee',
+              zIndex: 10,
+            }}
+          >
+            {form.isDirty() && (
+              <Group>
+                <Button type="submit">Сохранить</Button>
+                <Button variant="outline" onClick={handleCancel}>
+                  Отмена
+                </Button>
+              </Group>
+            )}
+            <Button
+              onClick={() => {
+                navigate('/projects');
+              }}
+              variant="outline"
+            >
+              Назад к проектам
+            </Button>
+          </Group>
         </form>
       </Stack>
     </StatePage>

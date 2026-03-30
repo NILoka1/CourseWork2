@@ -12,7 +12,7 @@ export function DashboardPage() {
     return <div>Загрузка...</div>;
   }
 
-  const role = user?.role;
+  const role = user.role;
 
   return (
     <Stack gap="lg">

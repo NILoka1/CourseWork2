@@ -15,8 +15,8 @@ export const FullOneTeam = (): JSX.Element => {
     loading,
     form,
     handleCancel,
+    navigate,
   } = useFullTeam();
-
 
   return (
     <StatePage error={error} loading={loading}>
@@ -34,16 +34,36 @@ export const FullOneTeam = (): JSX.Element => {
             <FullTeamMembers team={team} handleAddMembers={handleAddMembers} />
             <FullTeamProjects team={team} handleAddProjects={handleAddProjects} />
           </Grid>
-          {form.isDirty() && (
-            <Group>
-              <Button type="submit">Сохранить</Button>
-              <Button variant="outline" onClick={handleCancel}>
-                Отмена
-              </Button>
-            </Group>
-          )}
+
+          <Group
+            justify="center"
+            style={{
+              position: 'sticky',
+              bottom: 0,
+              background: 'white',
+              padding: '12px',
+              borderTop: '1px solid #eee',
+              zIndex: 10,
+            }}
+          >
+            {form.isDirty() && (
+              <Group>
+                <Button type="submit">Сохранить</Button>
+                <Button variant="outline" onClick={handleCancel}>
+                  Отмена
+                </Button>
+                <Button
+                  onClick={() => {
+                    navigate('/teams');
+                  }}
+                  variant="outline"
+                >
+                  Выйти
+                </Button>
+              </Group>
+            )}
+          </Group>
         </form>
-        <Button variant="outline">Выйти</Button>
       </Stack>
     </StatePage>
   );
